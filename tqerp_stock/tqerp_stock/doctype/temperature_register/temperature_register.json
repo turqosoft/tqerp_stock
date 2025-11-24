@@ -1,0 +1,34 @@
+{
+    "doctype": "DocType",
+    "actions": [],
+    "allow_rename": 1,
+    "autoname": "TR-.#####",
+    "name": "Temperature Register",
+    "module": "Tqerp Stock",
+    "custom": 0,
+    "engine":"InnoDB",
+    "is_single": 0,
+
+    "fields": [
+      
+      {
+        "fieldname": "temperature_log",
+        "label": "Temperature Log",
+        "fieldtype": "Table",
+        "options": "Temperature Register Item"
+      }
+    ],
+    "permissions": [
+      {
+        "role": "System Manager",
+        "read": 1,
+        "write": 1,
+        "create": 1,
+        "delete": 1
+      }
+     
+    
+    ],
+    "track_changes": 1
+   }
+   

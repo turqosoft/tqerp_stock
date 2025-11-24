@@ -1,0 +1,120 @@
+{
+    "name": "Material Consumption Forecast Linear",
+    "ref_doctype": "Item",
+    "doctype": "Report",
+    "is_standard": "Yes",
+    "module": "Tqerp Stock",
+    "report_type": "Script Report",
+    "add_total_row": 0,
+    "add_translate_data": 0,
+    "disabled": 0,
+    "prepared_report": 0,
+    "roles": [
+      { "role": "System Manager" },
+      { "role": "Stock Manager" }
+    ],
+    "filters": [
+      {
+        "fieldname": "company",
+        "label": "Company",
+        "fieldtype": "Link",
+        "options": "Company",
+        "reqd": 0,
+        "default": ""
+      },
+      {
+        "fieldname": "warehouse",
+        "label": "Warehouse",
+        "fieldtype": "Link",
+        "options": "Warehouse",
+        "reqd": 0,
+        "default": ""
+      },
+      {
+        "fieldname": "from_date",
+        "label": "From Date",
+        "fieldtype": "Date",
+        "reqd": 1,
+        "default": ""
+      },
+      {
+        "fieldname": "to_date",
+        "label": "To Date",
+        "fieldtype": "Date",
+        "reqd": 1,
+        "default": ""
+      },
+      {
+        "fieldname": "horizon",
+        "label": "Forecast Horizon (Months)",
+        "fieldtype": "Int",
+        "reqd": 0,
+        "default": 3
+      }
+    ],
+    "columns": [
+      {
+        "label": "Item Code",
+        "fieldname": "item_code",
+        "fieldtype": "Link",
+        "options": "Item",
+        "width": 160
+      },
+      {
+        "label": "Item Name",
+        "fieldname": "item_name",
+        "fieldtype": "Data",
+        "width": 150
+      },
+      {
+        "label": "History From (YYYY-MM)",
+        "fieldname": "hist_from",
+        "fieldtype": "Data",
+        "width": 120
+      },
+      {
+        "label": "History To (YYYY-MM)",
+        "fieldname": "hist_to",
+        "fieldtype": "Data",
+        "width": 120
+      },
+      {
+        "label": "Recent Avgerage ",
+        "fieldname": "avg3",
+        "fieldtype": "Float",
+        "width": 140
+      },
+      {
+        "label": "Trend (slope/mo)",
+        "fieldname": "slope",
+        "fieldtype": "Float",
+        "width": 120
+      },
+      {
+        "label": "Forecast Next Month",
+        "fieldname": "fc1",
+        "fieldtype": "Float",
+        "width": 150
+      },
+      {
+        "label": "Forecast Next Horizon (Sum)",
+        "fieldname": "fch",
+        "fieldtype": "Float",
+        "width": 180
+      },
+      {
+        "label": "Projected Stock",
+        "fieldname": "proj_stock",
+        "fieldtype": "Float",
+        "width": 130
+      },
+      {
+        "label": "Suggested Requirement",
+        "fieldname": "suggested_req",
+        "fieldtype": "Float",
+        "width": 170
+      }
+    ],
+    "timeout": 0
+  }
+  

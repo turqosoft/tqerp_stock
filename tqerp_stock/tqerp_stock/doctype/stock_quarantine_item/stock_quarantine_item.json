@@ -1,0 +1,69 @@
+{
+    "doctype": "DocType",
+    "name": "Stock Quarantine Item",
+    "module": "Tqerp Stock",
+    "custom": 0,
+    "istable": 1,
+    "editable_grid": 1,
+
+    "fields": [
+      {
+        "fieldname": "item_code",
+        "fieldtype": "Link",
+        "label": "Item Code",
+        "options": "Item",
+        "reqd": 1,
+        "in_list_view": 1
+      },
+      {
+        "fieldname": "item_name",
+        "fieldtype": "Data",
+        "label": "Item Name",
+        "read_only": 1,
+        "in_list_view": 1
+      },
+      {
+        "fieldname": "batch_no",
+        "fieldtype": "Link",
+        "label": "Batch No",
+        "options": "Batch",
+        "reqd": 1,
+        "in_list_view": 1
+      },
+      {
+        "fieldname": "expiry_date",
+        "fieldtype": "Date",
+        "label": "Expiry Date",
+        "in_list_view": 1
+      },
+      {
+        "fieldname": "warehouse",
+        "fieldtype": "Link",
+        "label": "Current Warehouse",
+        "options": "Warehouse",
+        "in_list_view": 1
+      },
+      {
+        "fieldname": "company",
+        "fieldtype": "Link",
+        "label": "Company",
+        "options": "Company",
+        "read_only": 1,
+        "in_list_view": 1
+      },      
+      {
+        "fieldname": "qty",
+        "fieldtype": "Float",
+        "label": "Quantity",
+        "in_list_view": 1
+      },
+      {
+        "fieldname": "uom",
+        "fieldtype": "Link",
+        "label": "UOM",
+        "options": "UOM",
+        "in_list_view": 1
+      }
+    ]
+  }
+  

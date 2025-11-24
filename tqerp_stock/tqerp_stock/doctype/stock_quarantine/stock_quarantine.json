@@ -1,0 +1,51 @@
+{
+  "doctype": "DocType",
+  "name": "Stock Quarantine",
+  "module": "Tqerp Stock",
+  "custom": 0,
+  "is_submittable": 1,
+  "allow_rename": 0,
+  "autoname": "SQ-.YYYY.-.#####",
+  "fields": [
+    {
+      "fieldname": "source_warehouse",
+      "fieldtype": "Link",
+      "label": "Source Warehouse",
+      "options": "Warehouse"
+    },
+    {
+      "fieldname": "cb_quarantine",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "quarantine_warehouse",
+      "fieldtype": "Link",
+      "label": "Quarantine Warehouse",
+      "options": "Warehouse",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "sb_quarantine",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "expired_batches",
+      "fieldtype": "Table",
+      "label": "Expired Batch Items",
+      "options": "Stock Quarantine Item"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1
+    }
+  ],
+  "istable": 0
+}

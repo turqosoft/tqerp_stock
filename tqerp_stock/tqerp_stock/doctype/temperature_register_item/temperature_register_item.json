@@ -1,0 +1,54 @@
+{
+    "doctype": "DocType",
+    "name": "Temperature Register Item",
+    "module": "Tqerp Stock",
+    "custom": 0,
+    "is_single": 0,
+    "istable": 1,
+    "editable_grid": 1,
+    "fields": [
+      {
+        "fieldname": "time",
+        "label": "Time",
+        "fieldtype": "Datetime",
+        "reqd": 1,
+        "in_list_view":1
+      },
+      {
+        "fieldname": "warehouse",
+        "label": "Warehouse",
+        "fieldtype": "Link",
+        "options": "Warehouse",
+        "reqd": 1,
+        "in_list_view": 1
+      },
+      {
+        "fieldname": "temperature",
+        "label": "Temperature (°C)",
+        "fieldtype": "Float",
+        "reqd": 1,
+        "in_list_view":1
+      },
+      {
+        "fieldname": "user",
+        "label": "User",
+        "fieldtype": "Link",
+        "options": "User",
+        "read_only": 1,
+        "in_list_view": 1
+      }
+      
+    ],
+    "permissions": [
+      {
+        "role": "System Manager",
+        "read": 1,
+        "write": 1,
+        "create": 1,
+        "delete": 1
+      }
+    ],
+    "in_create": 1,
+    "track_changes": 1
+   }
+   

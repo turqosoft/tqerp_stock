@@ -1,0 +1,275 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+
+<style>
+body {
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: #f9fafb;
+  color: #333;
+  padding: 10px;
+}
+
+h2 {
+  text-align: center;
+  font-weight: 600;
+  margin: 15px 0;
+}
+
+.page-intro {
+  text-align: center;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* Card styles */
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  width: 220px;
+}
+
+.card h3 { 
+  font-size: 18px; 
+  color: #444; 
+  margin-bottom: 3px; 
+}
+
+.card b { 
+  font-size: 22px; 
+  font-weight: 600; 
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.card.expired b { color: #d9534f; }
+.card.expiring b { color: #f0ad4e; }
+.card.ok b { color: green; }
+.card.total b { color: #007bff; }
+
+/* Filter section */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.filter-container select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+.filter-container button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+.filter-container button:hover {
+  background: #0056b3;
+}
+
+/* Table styles */
+.po-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #ccc;
+}
+.po-table th, .po-table td {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+.po-table th { background: #f8f9fa; font-weight: 600; }
+
+.arrow {
+  cursor: pointer;
+  user-select: none;
+  margin-right: 6px;
+  font-weight: bold;
+  display: inline-block;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #555;
+  width: 16px;
+  text-align: center;
+}
+.arrow.open { transform: rotate(90deg); color: #000; }
+
+.hidden-row { display: none; }
+
+.item-line {
+  padding: 4px 8px;
+  margin: 2px 0;
+  border-bottom: 1px dashed #ccc;
+  background: #f9f9ff;
+  font-size: 13px;
+}
+
+.status-expired { color: #d9534f; font-weight: 600; }
+.status-warning { color: #f0ad4e; font-weight: 600; }
+.status-ok { color: green; font-weight: 600; }
+</style>
+
+<h2>FEFO Control Dashboard</h2>
+<p class="page-intro">
+  Showing batches that are <b>Expired</b>, <b>Expiring Soon</b>, <b>OK</b>, or <b>Under QC</b>.<br>
+  (Shelf Life: <b>{{ threshold_days }}</b> days)
+</p>
+
+<!-- Filters -->
+<div class="filter-container">
+  <select id="warehouse_filter">
+    <option value="">All Warehouses</option>
+    {% for w in warehouses %}
+      <option value="{{ w }}" {% if selected_warehouse == w %}selected{% endif %}>{{ w }}</option>
+    {% endfor %}
+  </select>
+
+  <select id="item_group_filter">
+    <option value="">All Item Groups</option>
+    {% for g in item_groups %}
+      <option value="{{ g }}" {% if selected_item_group == g %}selected{% endif %}>{{ g }}</option>
+    {% endfor %}
+  </select>
+
+  <button onclick="applyFilters()">Filter</button>
+</div>
+
+<!-- Cards -->
+<div class="card-container">
+  <div class="card total">
+    <h3>Total Batches</h3>
+    <b>{{ total_batches }}</b>
+  </div>
+  <div class="card ok">
+    <h3>OK</h3>
+    <b>{{ ok_count }}</b>
+  </div>
+  <div class="card expiring">
+    <h3>Expiring Soon</h3>
+    <b>{{ expiring_soon_count }}</b>
+  </div>
+  <div class="card expired">
+    <h3>Expired</h3>
+    <b>{{ expired_count }}</b>
+  </div>
+</div>
+
+<!-- Table -->
+<table class="po-table">
+  <thead>
+    <tr>
+      <th style="width:40px;"></th>
+      <th>Batch</th>
+      <th>Item</th>
+      <th>Warehouse</th>
+      <th>Expiry Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in batch_list %}
+    <tr class="po-row">
+      <td><span class="arrow">▶</span></td>
+      <td><b>{{ b.batch_no }}</b></td>
+      <td><b>{{ b.item_code }}</b></td>
+      <td>{{ b.warehouse }}</td>
+      <td>{{ b.expiry_date.strftime('%d-%m-%Y') if b.expiry_date else '-' }}</td>
+      <td>
+        {% if b.status == "Expired" %}
+          <span class="status-expired">Expired ({{ b.delay_days }} days)</span>
+        {% elif b.status == "Expiring Soon" %}
+          <span class="status-warning">Expiring Soon ({{ b.delay_days }} days)</span>
+        {% elif b.status == "Under QC" %}
+          <span class="status-warning">Under QC</span>
+        {% else %}
+          <span class="status-ok">OK</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <!-- Expand Row -->
+    <tr class="hidden-row detail-row">
+      <td></td>
+      <td colspan="5">
+        <span class="arrow item-arrow">▶</span>
+        <b>Batch Details</b>
+      </td>
+    </tr>
+    <tr class="hidden-row">
+      <td></td>
+      <td colspan="5">
+        <div class="item-line"><b>Item Code:</b> {{ b.item_code }}</div>
+        <div class="item-line"><b>Item Name:</b> {{ b.item_name }}</div>
+        <div class="item-line"><b>Item Group:</b> {{ b.item_group }}</div>
+        <div class="item-line"><b>Manufacturing Date:</b> {{ b.manufacturing_date }}</div>
+        <div class="item-line"><b>Expiry Date:</b> {{ b.expiry_date }}</div>
+        <div class="item-line"><b>Qty:</b> {{ b.qty }}</div>
+        <div class="item-line"><b>Status:</b> {{ b.status }}</div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+function applyFilters() {
+  const warehouse = document.getElementById('warehouse_filter').value;
+  const item_group = document.getElementById('item_group_filter').value;
+
+  let url = window.location.pathname + "?";
+  if (warehouse) url += "warehouse=" + encodeURIComponent(warehouse) + "&";
+  if (item_group) url += "item_group=" + encodeURIComponent(item_group);
+
+  window.location.href = url;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".hidden-row").forEach(r => r.style.display = "none");
+
+  // Expand main row
+  document.querySelectorAll(".po-row .arrow").forEach(arrow => {
+    arrow.addEventListener("click", function () {
+      const row = this.closest("tr");
+      let next = row.nextElementSibling;
+      const group = [];
+      while (next && !next.classList.contains("po-row")) {
+        group.push(next);
+        next = next.nextElementSibling;
+      }
+      const open = this.classList.contains("open");
+      group.forEach(r => r.style.display = open ? "none" : "table-row");
+      this.classList.toggle("open");
+      this.textContent = open ? "▶" : "▼";
+    });
+  });
+
+  // Expand inner detail
+  document.querySelectorAll(".item-arrow").forEach(arrow => {
+    arrow.addEventListener("click", function () {
+      const tr = this.closest("tr");
+      const details = tr.nextElementSibling;
+      const open = this.classList.contains("open");
+      details.style.display = open ? "none" : "table-row";
+      this.classList.toggle("open");
+      this.textContent = open ? "▶" : "▼";
+    });
+  });
+});
+</script>
+
+{% endblock %}

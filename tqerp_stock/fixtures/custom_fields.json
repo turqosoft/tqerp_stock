@@ -1,0 +1,95 @@
+[
+    {
+        "doctype": "Custom Field",
+        "dt": "Item",
+        "module": "Tqerp Stock",
+        "name": "Maximum order quantity in Item",
+        "fieldname": "max_qty",
+        "fieldtype": "Int",
+        "label": "Maximum Quantity",
+        "insert_after": "is_customer_provided_item"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Item",
+        "module": "Tqerp Stock",
+        "name": "Critical Stock in Item",
+        "fieldname": "critical_stock",
+        "fieldtype": "Data",
+        "label": "Critical Stock",
+        "insert_after": "max_qty"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Item",
+        "module": "Tqerp Stock",
+        "name": "Spec Tab in Item",
+        "fieldname": "spec_tab",
+        "fieldtype": "Tab Break",
+        "label": "Product Specific Characteristics",
+        "insert_after": "uoms"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Item",
+        "module": "Tqerp Stock",
+        "name": "Specific Characteristics in item",
+        "fieldname": "specs",
+        "fieldtype": "Table",
+        "label": "Product Specific Characteristics",
+        "insert_after": "spec_tab",
+        "options": "Product Specific Characteristics"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Stock Settings",
+        "module": "Tqerp Stock",
+        "fieldname": "default_quarantine_warehouse",
+        "name": "default_quarantine_warehouse",
+        "label": "Default Quarantine Warehouse",
+        "fieldtype": "Link",
+        "options": "Warehouse",
+        "insert_after": "default_warehouse"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Warehouse",
+        "module": "Tqerp Stock",
+        "name": "Section break for Settings in Warehouse",
+        "fieldname": "sb_wahreouse_settings",
+        "fieldtype": "Section Break",
+        "label": "Warehouse Settings",
+        "insert_after": "default_in_transit_warehouse"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Warehouse",
+        "module": "Tqerp Stock",
+        "name": "Condition Type in Warehouse",
+        "fieldname": "condition_type",
+        "fieldtype": "Select",
+        "label": "Storage Condition",
+        "options": "Ambient\nChilled\nFrozen",
+        "insert_after": "sb_wahreouse_settings"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Warehouse",
+        "module": "Tqerp Stock",
+        "fieldname": "min_temperature",
+        "name": "min_temperature",
+        "label": "Minimum Temperature (°C)",
+        "fieldtype": "Float",
+        "insert_after": "condition_type"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Warehouse",
+        "module": "Tqerp Stock",
+        "fieldname": "max_temperature",
+        "name": "max_temperature",
+        "label": "Maximum Temperature (°C)",
+        "fieldtype": "Float",
+        "insert_after": "min_temperature"
+    }
+]

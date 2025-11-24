@@ -1,0 +1,89 @@
+{
+    "name": "Item Forecast Report",
+    "ref_doctype": "Item",
+    "doctype": "Report",
+    "report_type": "Query Report",
+    "is_standard": "No",
+    "module": "Tqerp Stock",
+    "filters": [
+        {
+          "fieldname": "from_date",
+          "label": "From Date",
+          "fieldtype": "Date",
+          "reqd": 1,
+          "default": ""
+        },
+        {
+          "fieldname": "to_date",
+          "label": "To Date",
+          "fieldtype": "Date",
+          "reqd": 1,
+          "default": ""
+        },
+        {
+          "fieldname": "forecast_months",
+          "label": "Forecast Months",
+          "fieldtype": "Int",
+          "reqd": 1,
+          "default": 1
+        },
+        {
+          "fieldname": "item_group",
+          "label": "Item Group",
+          "fieldtype": "Link",
+          "options": "Item Group",
+          "default": ""
+        },
+        {
+            "fieldname": "company",
+            "label": "Company",
+            "fieldtype": "Link",
+            "options": "Company",
+            "default": ""
+        }
+        
+      ],
+      "columns": [
+        {
+          "label": "Item Code",
+          "fieldname": "item_code",
+          "fieldtype": "Data",
+          "width": 120
+        },
+        {
+          "label": "Item Name",
+          "fieldname": "item_name",
+          "fieldtype": "Data",
+          "width": 150
+        },
+        {
+          "label": "Past Consumption",
+          "fieldname": "past_consumption",
+          "fieldtype": "Float",
+          "width": 120
+        },
+        {
+          "label": "Forecast Quantity",
+          "fieldname": "forecast_qty",
+          "fieldtype": "Float",
+          "width": 120
+        },
+        {
+          "label": "Last Purchase Rate",
+          "fieldname": "last_purchase_rate",
+          "fieldtype": "Currency",
+          "width": 120
+        },
+        {
+          "label": "Estimated Fund Requirement",
+          "fieldname": "estimated_fund",
+          "fieldtype": "Currency",
+          "width": 150
+        }
+      ],
+      "query": "SELECT i.name AS item_code, i.item_name, \n       IFNULL(SUM(s.actual_qty), 0) AS past_consumption, \n       IFNULL(SUM(s.actual_qty), 0) * %(forecast_months)s AS forecast_qty, \n       IFNULL((SELECT pri.rate FROM `tabPurchase Receipt Item` pri JOIN `tabPurchase Receipt` pr ON pr.name = pri.parent WHERE pri.item_code = i.name ORDER BY pr.posting_date DESC LIMIT 1), 0) AS last_purchase_rate, \n       IFNULL(SUM(s.actual_qty), 0) * %(forecast_months)s * IFNULL((SELECT pri.rate FROM `tabPurchase Receipt Item` pri JOIN `tabPurchase Receipt` pr ON pr.name = pri.parent WHERE pri.item_code = i.name ORDER BY pr.posting_date DESC LIMIT 1), 0) AS estimated_fund \nFROM `tabItem` i \nLEFT JOIN `tabStock Ledger Entry` s ON s.item_code = i.name AND s.posting_date BETWEEN %(from_date)s AND %(to_date)s \nWHERE (COALESCE(%(item_group)s,'') = '' OR i.item_group = %(item_group)s)  \nGROUP BY i.name, i.item_name \nORDER BY i.item_name ASC",
+      "add_total_row": 0,
+      "add_translate_data": 0,
+      "disabled": 0,
+      "timeout": 0
+    }
