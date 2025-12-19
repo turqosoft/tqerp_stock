@@ -145,6 +145,19 @@ app_license = "agpl-3.0"
 # 	}
 # }
 
+doc_events = {
+    "Purchase Order": {
+        "on_submit": "tqerp_stock.tqerp_stock.doctype.material_indent.material_indent.update_material_indent_status_on_submit",
+        "on_cancel": "tqerp_stock.tqerp_stock.doctype.material_indent.material_indent.update_material_indent_status_on_cancel",
+        "after_insert": "tqerp_stock.tqerp_stock.doctype.material_indent.material_indent.update_material_indent_status"
+    },
+    "Stock Entry": {
+        "on_submit": "tqerp_stock.tqerp_stock.doctype.material_indent.material_indent.on_submit_stock_entry",
+        "on_cancel": "tqerp_stock.tqerp_stock.doctype.material_indent.material_indent.on_cancel_stock_entry",
+        "after_insert": "tqerp_stock.tqerp_stock.doctype.material_indent.material_indent.update_indent_status_on_stock_entry"
+    }
+}
+
 # Scheduled Tasks
 # ---------------
 

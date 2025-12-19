@@ -91,5 +91,37 @@
         "label": "Maximum Temperature (°C)",
         "fieldtype": "Float",
         "insert_after": "min_temperature"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Purchase Order",
+        "module": "Tqerp Stock",
+        "name": "material_indents",
+        "fieldname": "material_indents",
+        "fieldtype": "Small Text",
+        "label": "Material Indents",
+        "insert_after": "is_internal_supplier"
+    },
+     {
+        "doctype": "Custom Field",
+        "dt": "Purchase Order Item",
+        "module": "Tqerp Stock",
+        "name": "material_indents",
+        "fieldname": "material_indents",
+        "fieldtype": "Small Text",
+        "label": "Material Indents",
+        "insert_after": "against_blanket_order"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Stock Entry Detail",
+        "module": "Tqerp Stock",
+        "name": "material_indent",
+        "fieldname": "material_indent",
+        "fieldtype": "Link",
+        "label": "Material Indent",
+        "options": "Material Indent",
+        "insert_after": "job_card_item",
+        "read_only": 1
     }
 ]
