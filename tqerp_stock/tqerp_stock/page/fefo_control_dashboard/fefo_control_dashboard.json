@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2025-10-14 09:53:03.126014",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-10-14 17:47:09.329351",
+ "modified_by": "Administrator",
+ "module": "Tqerp Stock",
+ "name": "fefo-control-dashboard",
+ "owner": "Administrator",
+ "page_name": "fefo-control-dashboard",
+ "roles": [],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "FEFO Control Dashboard"
+}
