@@ -123,5 +123,25 @@
         "options": "Material Indent",
         "insert_after": "job_card_item",
         "read_only": 1
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Item",
+        "module": "Tqerp Stock",
+        "fieldname": "product_brochure_section",
+        "name": "product_brochure_section",
+        "fieldtype": "Section Break",
+        "label": "Product Brochure",
+        "insert_after": "brand"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Item",
+        "module": "Tqerp Stock",
+        "fieldname": "product_brochure",
+        "name":"product_brochure",
+        "fieldtype": "Attach",
+        "label": "Product Brochure",
+        "insert_after": "product_brochure_section"
     }
 ]
