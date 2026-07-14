@@ -31,3 +31,18 @@ Pre-commit is configured to use the following tools for checking and formatting 
 ### License
 
 agpl-3.0
+
+### v1.0.2 (2026-07-14)
+
+#### New Features
+- Added new reports
+- Advanced MRP Shortage Report
+- Daily Production Report
+- End to End Production Tracking
+- Sales Order vs Production Progress Report
+
+#### Improvements
+- 
+
+#### Bug Fixes
+- 
